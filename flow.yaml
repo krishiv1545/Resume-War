@@ -1,0 +1,46 @@
+version: "0.0.2"
+
+metadata:
+  name: "resume-analysis-and-comparision"
+  description: "Accepts a jsonified resume as input to evaluate and compare"
+  author: "krishiv1545"
+  tags: [resume, analyse, categorize, ranke, rate]
+  private: false
+
+#inputs:
+#  input1:
+#    type: string
+#    description: "Description of input1"
+#    required: true
+#    example: "Example value for input1"
+#  input2:
+#    type: string
+#    description: "Description of input2"
+#    required: true
+#    example: "Example value for input2"
+
+model:
+  provider: "openai"
+  name: "gpt-4o"
+
+#dataset:
+#  source: "author_name/dataset_name"
+
+prompt: |
+  Analyze this resume {input}. Rate each section (0-10.00, 2 decimal places):
+
+  Skills: Rate higher if used in projects
+  Experience: Based on relevance and duration
+  Education: Rate by {Masters:10, PhD:9.5, BE/BTech:9, BS:8.5, BSc/BCA:8, Diploma:7, HS:6}
+  Certifications: Ignore if 3+ years experience
+  Projects: Rate on complexity, uniqueness, skill usage
+  Achievements: Rate on tech relevance only
+
+  Return as:
+  {
+    "result": "Analysis with flaws and suggestions per category",
+    "score": total_out_of_100
+  }
+
+readme: |
+  This flow accepts a jsonified resume as input and returns a strict analysis of the resume. Make sure the submitted resumes are written using LaTeX editor for accurate parsing.

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RESUME WAR</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='logo.png') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='signup.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Teko:wght@500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <nav>
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" />
+        <h1><span style="font-weight: 5">Welcome to the</span> RESUME WAR!</h1>
+      </nav>
+
+      <main>
+        <div class="left-panel">
+          <div class="form-box">
+            <h2>Sign Up</h2>
+            <form
+              method="POST"
+              action="{{ url_for('signup') }}"
+              enctype="multipart/form-data"
+            >
+              <input type="email" name="email" placeholder="Email" required />
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+              />
+              <div class="file-input">
+                <label for="resume">Upload Resume (PDF)</label>
+                <div class="custom-file">
+                  <input
+                    type="file"
+                    id="resume"
+                    name="resume"
+                    accept=".pdf"
+                    required
+                  />
+                  <label for="resume">Choose File</label>
+                  <span class="file-name">No file chosen</span>
+                </div>
+              </div>
+              <button type="submit">Sign Up</button>
+            </form>
+            <p>
+              Already have an account?
+              <a href="{{ url_for('login') }}">Login</a>
+            </p>
+          </div>
+        </div>
+        <div class="right-panel">
+          <div class="instructions">
+            <p>
+              Welcome to Resume Wars where we use Large Language Models (LLMs)
+              through <b>Mira Flows Networks</b> (https://flows.mira.network/)
+              to analyze your resume and compare it to other resumes available
+              in our database.
+            </p>
+            <p>
+              Make sure you upload a nameless resume as displayed below to
+              ensure privacy :D
+            </p>
+            <div class="image-container">
+              <img
+                src="{{ url_for('static', filename='sample_nameless_resume.png') }}"
+                alt="Sample Resume Format"
+              /><span class="emoji">✔️</span>
+              <img
+                src="{{ url_for('static', filename='sample_named_resume.png') }}"
+                alt="Sample Resume Format 2"
+              /><span class="emoji">❌</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      document
+        .getElementById("resume")
+        .addEventListener("change", function (e) {
+          const fileName = e.target.files[0]?.name || "No file chosen";
+          document.querySelector(".file-name").textContent = fileName;
+        });
+    </script>
+  </body>
+</html>

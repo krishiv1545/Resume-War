@@ -1,0 +1,10 @@
+.env
+.venv
+__pychache__
+flow2.yaml
+uploads/
+parsed_resume.json
+parse.py
+parse2.py
+instance/
+templates/profile.html

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaderboard - RESUME WAR</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='leaderboard.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Teko:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='logo.png') }}"
+    />
+  </head>
+  <body>
+    <div class="leaderboard-container">
+      <nav class="navbar">
+        <div class="nav-left">
+          <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" />
+          <h1>RESUME WAR</h1>
+        </div>
+        <div class="nav-right">
+          <a href="{{ url_for('home') }}">Dashboard</a>
+          <span class="nav-separator">|</span>
+          <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+          <span class="nav-separator">|</span>
+          <a href="https://flows.mira.network/">Mira Flows Network</a>
+          <span class="nav-separator">|</span>
+          <!-- <a href="{{ url_for('profile') }}">Profile</a>
+          <span class="nav-separator">|</span> -->
+          <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+      </nav>
+
+      <div class="content">
+        <div class="leaderboard-content">
+          <h3>Global Rankings</h3>
+          <div class="leaderboard-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Username</th>
+                  <th>Score</th>
+                  <th>Last Evaluated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for entry in leaderboard %}
+                <tr
+                  {%
+                  if
+                  entry.is_current_user
+                  %}class="highlight-row"
+                  {%
+                  endif
+                  %}
+                >
+                  <td>{{ entry.rank }}</td>
+                  <td>{{ entry.username }}</td>
+                  <td>{{ entry.score }}</td>
+                  <td>{{ entry.last_evaluated.strftime('%d-%m-%Y') }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

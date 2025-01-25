@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard - RESUME WAR</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='logo.png') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='dashboard.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Teko:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <nav class="navbar">
+        <div class="nav-left">
+          <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" />
+          <h1>RESUME WAR</h1>
+        </div>
+        <div class="nav-right">
+          <a href="{{ url_for('home') }}">Dashboard</a>
+          <span class="nav-separator">|</span>
+          <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+          <span class="nav-separator">|</span>
+          <a href="https://flows.mira.network/">Mira Flows Network</a>
+          <span class="nav-separator">|</span>
+          <!-- <a href="{{ url_for('profile') }}">Profile</a>
+          <span class="nav-separator">|</span> -->
+          <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+      </nav>
+      <div class="content">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div class="alert {{ category }}">{{ message }}</div>
+        {% endfor %} {% endif %} {% endwith %}
+
+        <!-- Left side PDF viewer -->
+        <div class="pdf-container">
+          <h3>Your Resume</h3>
+          <embed
+            src="{{ url_for('get_pdf', filename=resume_path[8:]) }}"
+            type="application/pdf"
+            width="100%"
+            height="100%"
+          />
+        </div>
+
+        <div class="dashboard-content">
+          <h3>Your Resume Analysis</h3>
+          <div class="analysis-section">
+            <form method="POST" action="{{ url_for('evaluate_resume') }}">
+              <button type="submit" class="evaluate-button">
+                Evaluate Resume
+              </button>
+            </form>
+
+            {% if mira_analysis %}
+            <div class="result-container">
+              <h4><u>AI Analysis</u></h4>
+              <div class="data-display" id="analysis-content">
+                {{ mira_analysis }}
+              </div>
+            </div>
+            {% endif %} {% if resume_data %}
+            <div class="result-container">
+              <h4><u>Resume JSON</u></h4>
+              <pre class="data-display">
+{{ resume_data | tojson(indent=2) }}</pre
+              >
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const content = document.getElementById("analysis-content");
+        if (content) {
+          content.innerHTML = marked.parse(content.textContent);
+        }
+      });
+    </script>
+  </body>
+</html>
