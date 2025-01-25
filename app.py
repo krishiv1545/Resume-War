@@ -371,27 +371,36 @@ def evaluate_resume():
 
 @app.route('/miraflows')
 def miraflows():
-    """ if 'user_id' not in session:
+    if 'user_id' not in session:
         return redirect(url_for('home'))
 
     user = User.query.get(session['user_id'])
     parsed_resume = json.loads(user.parsed_resume)
+    resume_path = user.resume_path
 
     try:
         flow = Flow(source="flow.yaml")
         input_dict = {"input": parsed_resume}
         response = client.flow.test(flow, input_dict)
-        print("Mira Response:", response)
-        analysis_text = "\n #### " + response['result']
-        score = int(response['score'])
+
+        # Extract the JSON from the code block
+        json_str = response['result']
+        json_start = json_str.find('{')
+        json_end = json_str.rfind('}') + 1
+        extracted_json = json_str[json_start:json_end]
+
+        # Parse the extracted JSON
+        parsed_response = json.loads(extracted_json)
+
+        analysis_text = "\n #### " + parsed_response['result']
+        score = int(float(parsed_response['score']))  # Convert to float first
 
         existing_entry = Leaderboard.query.filter_by(user_id=user.id).first()
 
         if existing_entry:
-            # Update existing entry
             existing_entry.rating = score
+            existing_entry.created_at = datetime.now(UTC)
         else:
-            # Create new entry
             new_entry = Leaderboard(
                 user_id=user.id,
                 rating=score
@@ -402,12 +411,15 @@ def miraflows():
 
         return render_template('dashboard.html',
                                resume_data=parsed_resume,
-                               mira_analysis=response)
+                               mira_analysis=analysis_text,
+                               resume_path=resume_path)
 
     except Exception as e:
         print(f"Mira Analysis Error: {e}")
         return render_template('dashboard.html',
-                               resume_data=parsed_resume) """
+                               resume_data=parsed_resume,
+                               resume_path=resume_path)
+  # add to git
 
     ############################################################################
     # FOR TESTING SO YOU DONT RUN OUT OF TOKENS, COMMENT BELOW AND UNCOMMENT TOP
@@ -417,7 +429,7 @@ def miraflows():
     # REGARDS, KRISHIV KHAMBHAYATA (krishiv1545 on github/linkedin)
     ############################################################################
 
-    user = User.query.get(session['user_id'])
+    """ user = User.query.get(session['user_id'])
     resume_path = user.resume_path
     parsed_resume = json.loads(user.parsed_resume)
 
@@ -436,7 +448,7 @@ def miraflows():
         db.session.add(new_entry)
     db.session.commit()
 
-    return render_template('dashboard.html', resume_data=parsed_resume, mira_analysis=analysis_text, resume_path=resume_path)
+    return render_template('dashboard.html', resume_data=parsed_resume, mira_analysis=analysis_text, resume_path=resume_path) """
 
 
 if __name__ == '__main__':
