@@ -37,10 +37,10 @@ prompt: |
   Achievements: Rate on tech relevance only
 
   Return as:
-  {
+  {{
     "result": "Analysis with flaws and suggestions per category",
     "score": total_out_of_100
-  }
+  }}
 
 readme: |
   This flow accepts a jsonified resume as input and returns a strict analysis of the resume. Make sure the submitted resumes are written using LaTeX editor for accurate parsing.
