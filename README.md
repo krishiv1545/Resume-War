@@ -1,11 +1,16 @@
-<div style="display: flex; align-items: center;">
-    <img src="https://github.com/user-attachments/assets/c016795d-1577-47bc-a3e5-d6a46d4fcf7d" alt="Logo" style="width: 50px; height: auto; margin-right: 10px;">
+<div style="display: flex; align-items: center; gap: 10px;">
+    <img src="https://github.com/user-attachments/assets/c016795d-1577-47bc-a3e5-d6a46d4fcf7d" alt="Logo 1" style="width: 70px; height: auto;">
 </div>
 
 # Resume War!
 Resume War is a Flask application with Mira Flows Network inplementation meant to utilize the power of LLMs to parse, analyze, rate, improve and compare Resumes/CVs. 
 
 ## Mira Flows Network
+<div style="display: flex; align-items: center; gap: 10px;">
+    <img src="https://github.com/user-attachments/assets/85350907-6b31-46fe-94cf-0250b38a0e39" alt="Logo 2" style="width: 50px; height: auto;">
+    <img src="https://github.com/user-attachments/assets/00204318-b585-4cd0-84d6-46fd0c0d1ee9" alt="Logo 3" style="width: 50px; height: auto;">
+</div>
+
 Mira Flows SDK is a powerful Python toolkit that enables developers to programmatically create, manage, and deploy AI-powered flows. Here, we're using one such custom built flow meant to analyse a JSONified resume and return remarks, reccomendations and most importantly, scores.
 The score is parsed and stored within the Leaderboard thus allowing user to understand their strengths and shortcomings. 
 Users can choose to preview reviews of people ranked above them to understand what next steps are to be taken to grow and learn beyond!
